@@ -1,4 +1,4 @@
-CREATE TABLE `prefix_catalog_nomenclatures` (
+CREATE TABLE `catalog_nomenclatures` (
 	`id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
 	`product_id` INT(10) UNSIGNED NOT NULL DEFAULT '0',
 	`code` VARCHAR(255) NOT NULL DEFAULT '',
