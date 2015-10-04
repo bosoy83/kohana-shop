@@ -14,8 +14,10 @@ return array(
 		'resources' => array(
 			'shop_category_controller' => 'module_controller',
 			'shop_element_controller' => 'module_controller',
+			'shop_nomenclature_controller' => 'module_controller',
 			'shop_category' => 'module',
 			'shop_element' => 'module',
+			'shop_nomenclature' => 'module',
 		),
 		'rules' => array(
 			'allow' => array(
@@ -45,10 +47,16 @@ return array(
 					'resource' => 'shop_element',
 					'privilege' => 'edit',
 				),
-				'shop_element_fix' => array(
+				
+				'controller_shop_nomenclature_access' => array(
 					'role' => 'main',
-					'resource' => 'shop_element',
-					'privilege' => 'fix_positions',
+					'resource' => 'shop_nomenclature_controller',
+					'privilege' => 'access',
+				),
+				'shop_nomenclature_edit' => array(
+					'role' => 'main',
+					'resource' => 'shop_nomenclature',
+					'privilege' => 'edit',
 				),
 			),
 		)

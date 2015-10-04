@@ -30,13 +30,13 @@ class Controller_Admin_Modules_Shop_Category extends Controller_Admin_Modules_Sh
 				$this->left_menu_category_add();
 			}
 			if ($this->category_id) {
-				$this->left_menu_element_list($this->category_id);
+				$this->left_menu_element_list();
 				$this->title = $orm->title;
 				$this->sub_title = __('Catalog');
 			} else {
 				$this->title = __('Catalog');
 			}
-			if ($acl_edit) {
+			if ($this->acl->is_allowed($this->user, $orm, 'fix_positions')) {
 				$this->left_menu_category_fix();
 			}
 		}
@@ -79,7 +79,7 @@ class Controller_Admin_Modules_Shop_Category extends Controller_Admin_Modules_Sh
 			}
 			
 			if ( (bool) $id) {
-				$this->left_menu_element_list($id);
+				$this->left_menu_element_list();
 			}
 		}
 	}
