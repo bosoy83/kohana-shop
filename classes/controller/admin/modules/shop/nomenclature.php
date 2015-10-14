@@ -126,6 +126,17 @@ class Controller_Admin_Modules_Shop_Nomenclature extends Controller_Admin_Module
 				);
 				
 				$helper_orm->save($values + $_FILES);
+				
+				$helper_propery = new Helper_Property('shop.properties.nomenclature', $orm->object_name(), $orm->id);
+				$helper_propery->set_user_id($this->user->id);
+				if ( ! empty($values['properties'])) {
+					$files = Arr::get($_FILES, 'properties', array());
+					$properties = $values['properties'] + Helper_Property::prepare_files($files);
+					foreach ($properties as $_prop_name => $_value) {
+						$helper_propery->set($_prop_name, $_value);
+					}
+				}
+				
 			} catch (ORM_Validation_Exception $e) {
 				$errors = $e->errors( '' );
 				if ( ! empty($errors['_files'])) {
@@ -151,10 +162,16 @@ class Controller_Admin_Modules_Shop_Nomenclature extends Controller_Admin_Module
 				}
 			}
 			
+			if (empty($helper_propery)) {
+				$helper_propery = new Helper_Property('shop.properties.nomenclature', $orm->object_name(), $orm->id);
+			}
+			$properties = $helper_propery->get_list();
+			
 			$this->template
 				->set_filename('modules/shop/nomenclature/edit')
 				->set('errors', $errors)
-				->set('helper_orm', $helper_orm);
+				->set('helper_orm', $helper_orm)
+				->set('properties', $properties);
 		} else {
 			$this->request->current()
 				->redirect($this->back_url);

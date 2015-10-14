@@ -7,4 +7,7 @@ return array(
 	'Nomenclatures list' => 'Список номенклатуры',
 	'Add nomenclature' => 'Добавить позицию',
 	'Edit nomenclature' => 'Редактировать позицию',
+	'Price' => 'Цена',
+	'Discount' => 'Скидка',
+	'Residue' => 'Остаток',
 );

@@ -75,15 +75,22 @@ class Controller_Admin_Modules_Shop_Element extends Controller_Admin_Modules_Sho
 			'id' => $id,
 			'query' => Helper_Page::make_query_string($sub_query_array),
 		));
+		$post = $this->request->current()
+			->post();
+		if (isset($post['properties'])) {
+			unset($post['properties']);
+		}
+		
 		$html = Request::factory($sub_link)
-			->post($this->request->current()->post())
+			->post($post)
 			->execute()
 			->body();
 		
+		$html = $this->_set_properties_tab($html, $orm);
 		if ($orm->loaded()) {
 			$html = $this->_set_nomenclature_tab($html, $orm);
 		}
-			
+		
 		$this->template
 			->set_filename('modules/shop/frame')
 			->set('html', $html);
@@ -144,21 +151,65 @@ class Controller_Admin_Modules_Shop_Element extends Controller_Admin_Modules_Sho
 		
 		$tab_nav_html = View_Admin::factory('modules/shop/layout/tab/nav', array(
 			'code' => 'nomenclature',
-			'title' => __('Nomenclatures list'),
-		))->render();
+			'title' => '<b>'.__('Nomenclatures list').'</b>',
+		));
 		
 		$tab_pane_html = View_Admin::factory('modules/shop/layout/tab/pane', array(
 			'code' => 'nomenclature',
 			'content' => $html_nomenclature
-		))->render();
+		));
 		
 		$html = str_replace(array(
 			'<!-- #tab-nav-insert# -->', '<!-- #tab-pane-insert# -->'
 		), array(
-			$tab_nav_html, $tab_pane_html
+			$tab_nav_html.'<!-- #tab-nav-insert# -->', $tab_pane_html.'<!-- #tab-pane-insert# -->'
 		), $html);
 		
 		return $html;
 	}
 	
+	private function _set_properties_tab($html, $orm)
+	{
+		$post = $this->request->current()
+			->post('properties');
+		
+		if ($orm->loaded() AND ! empty($post)) {
+			$helper_propery = new Helper_Property('shop.properties.element', $orm->object_name(), $orm->id);
+			$helper_propery->set_user_id($this->user->id);
+			
+			$files = Arr::get($_FILES, 'properties', array());
+			$properties = $post + Helper_Property::prepare_files($files);
+			foreach ($properties as $_prop_name => $_value) {
+				$helper_propery->set($_prop_name, $_value);
+			}
+		}
+		
+		if (empty($helper_propery)) {
+			$helper_propery = new Helper_Property('shop.properties.element', $orm->object_name(), $orm->id);
+		}
+		
+		$properties = $helper_propery->get_list();
+		if ( ! empty($properties)) {
+			$html_properties = View_Admin::factory('form/property/list', array(
+				'properties' => $properties,
+			));
+			
+			$tab_nav_html = View_Admin::factory('modules/shop/layout/tab/nav', array(
+				'code' => 'properties',
+				'title' => __('Properties'),
+			));
+			$tab_pane_html = View_Admin::factory('modules/shop/layout/tab/pane', array(
+				'code' => 'properties',
+				'content' => $html_properties
+			));
+			
+			$html = str_replace(array(
+				'<!-- #tab-nav-insert# -->', '<!-- #tab-pane-insert# -->'
+			), array(
+				$tab_nav_html.'<!-- #tab-nav-insert# -->', $tab_pane_html.'<!-- #tab-pane-insert# -->'
+			), $html);
+		}
+		
+		return $html;
+	}
 } 

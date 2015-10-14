@@ -43,6 +43,12 @@
 				echo '<li>', HTML::anchor('#tab-description', __('Description'), array(
 					'data-toggle' => 'tab'
 				)), '</li>'; 
+				
+				if ( ! empty($properties)) {
+					echo '<li>', HTML::anchor('#tab-properties', __('Properties'), array(
+						'data-toggle' => 'tab'
+					)), '</li>';
+				}
 ?>
 				<!-- #tab-nav-insert# -->
 			</ul>
@@ -63,6 +69,19 @@
 					)); 
 ?>
 				</div>
+<?php
+				if ( ! empty($properties)):
+?>				
+					<div class="tab-pane kr-tab-pane" id="tab-properties">
+<?php
+						echo View_Admin::factory('form/property/list', array(
+							'properties' => $properties,
+						)); 
+?>
+					</div>
+<?php
+				endif;
+?>					
 				<!-- #tab-pane-insert# -->
 			</div>
 		</div>
