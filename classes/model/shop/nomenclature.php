@@ -22,6 +22,7 @@ class Model_Shop_Nomenclature extends ORM_Base {
 			'title' => 'Title',
 			'image_1' => 'Image 1',
 			'image_2' => 'Image 2',
+			'announcement' => 'Announcement',
 			'text' => 'Text',
 			'active' => 'Active',
 			'sort' => 'Sort',

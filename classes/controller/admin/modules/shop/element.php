@@ -40,7 +40,7 @@ class Controller_Admin_Modules_Shop_Element extends Controller_Admin_Modules_Sho
 
 	public function action_edit()
 	{
-		$id = (int) $this->request->current()->param('id');
+		$this->element_id = $id = (int) $this->request->current()->param('id');
 		$orm = ORM::factory('shop_Element', $id);
 		
 		if ($orm->loaded()) {
