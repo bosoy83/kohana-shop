@@ -20,7 +20,8 @@ class Model_Shop_Nomenclature extends ORM_Base {
 			'product_id' => 'Product',
 			'code' => 'Article',
 			'title' => 'Title',
-			'image' => 'Image',
+			'image_1' => 'Image 1',
+			'image_2' => 'Image 2',
 			'text' => 'Text',
 			'active' => 'Active',
 			'sort' => 'Sort',
@@ -46,7 +47,10 @@ class Model_Shop_Nomenclature extends ORM_Base {
 				array('not_empty'),
 				array('max_length', array(':value', 255)),
 			),
-			'image' => array(
+			'image_1' => array(
+				array('max_length', array(':value', 255)),
+			),
+			'image_2' => array(
 				array('max_length', array(':value', 255)),
 			),
 			'sort' => array(

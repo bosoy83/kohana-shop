@@ -3,7 +3,7 @@
 return array (
 	'shop' => array(
 		'uri_callback' => array('Helper_Shop', 'route'), 
-		'regex' => '(/<category_uri>(/<element_uri>))(?<query>)',
+		'regex' => '(/<category_uri>(/<element_uri>.html))(?<query>)',
 		'defaults' => array(
 			'directory' => 'modules',
 			'controller' => 'shop',
