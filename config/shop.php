@@ -4,14 +4,8 @@ return array
 (
 	'properties' => array(
 		'category' => array(),
-		'element' => array(
-			'Discount' => 'string',
-		),
-		'nomenclature' => array(
-			'Price' => 'string',
-			'Discount' => 'string',
-			'Residue' => 'string',
-		),
+		'element' => array(),
+		'nomenclature' => array(),
 	),
 );
 

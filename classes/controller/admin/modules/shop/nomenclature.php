@@ -131,11 +131,12 @@ class Controller_Admin_Modules_Shop_Nomenclature extends Controller_Admin_Module
 				$helper_propery->set_user_id($this->user->id);
 				if ( ! empty($values['properties'])) {
 					$files = Arr::get($_FILES, 'properties', array());
-					$properties = $values['properties'] + Helper_Property::prepare_files($files);
+					$properties = $values['properties'] + Helper_Property::extract_files($files);
 					foreach ($properties as $_prop_name => $_value) {
 						$helper_propery->set($_prop_name, $_value);
 					}
 				}
+				
 				
 			} catch (ORM_Validation_Exception $e) {
 				$errors = $e->errors( '' );

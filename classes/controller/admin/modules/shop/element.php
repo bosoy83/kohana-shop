@@ -178,7 +178,7 @@ class Controller_Admin_Modules_Shop_Element extends Controller_Admin_Modules_Sho
 			$helper_propery->set_user_id($this->user->id);
 			
 			$files = Arr::get($_FILES, 'properties', array());
-			$properties = $post + Helper_Property::prepare_files($files);
+			$properties = $post + Helper_Property::extract_files($files);
 			foreach ($properties as $_prop_name => $_value) {
 				$helper_propery->set($_prop_name, $_value);
 			}
