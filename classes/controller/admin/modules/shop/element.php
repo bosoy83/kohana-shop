@@ -81,6 +81,8 @@ class Controller_Admin_Modules_Shop_Element extends Controller_Admin_Modules_Sho
 			unset($post['properties']);
 		}
 		
+		$this->_save_properties_tab($orm);
+		
 		$html = Request::factory($sub_link)
 			->post($post)
 			->execute()
@@ -170,23 +172,7 @@ class Controller_Admin_Modules_Shop_Element extends Controller_Admin_Modules_Sho
 	
 	private function _set_properties_tab($html, $orm)
 	{
-		$post = $this->request->current()
-			->post('properties');
-		
-		if ($orm->loaded() AND ! empty($post)) {
-			$helper_propery = new Helper_Property('shop.properties.element', $orm->object_name(), $orm->id);
-			$helper_propery->set_user_id($this->user->id);
-			
-			$files = Arr::get($_FILES, 'properties', array());
-			$properties = $post + Helper_Property::extract_files($files);
-			foreach ($properties as $_prop_name => $_value) {
-				$helper_propery->set($_prop_name, $_value);
-			}
-		}
-		
-		if (empty($helper_propery)) {
-			$helper_propery = new Helper_Property('shop.properties.element', $orm->object_name(), $orm->id);
-		}
+		$helper_propery = new Helper_Property('shop.properties.element', $orm->object_name(), $orm->id);
 		
 		$properties = $helper_propery->get_list();
 		if ( ! empty($properties)) {
@@ -211,5 +197,22 @@ class Controller_Admin_Modules_Shop_Element extends Controller_Admin_Modules_Sho
 		}
 		
 		return $html;
+	}
+	
+	private function _save_properties_tab($orm)
+	{
+		$post = $this->request->current()
+			->post('properties');
+		
+		if ($orm->loaded() AND ! empty($post)) {
+			$helper_propery = new Helper_Property('shop.properties.element', $orm->object_name(), $orm->id);
+			$helper_propery->set_user_id($this->user->id);
+				
+			$files = Arr::get($_FILES, 'properties', array());
+			$properties = $post + Helper_Property::extract_files($files);
+			foreach ($properties as $_prop_name => $_value) {
+				$helper_propery->set($_prop_name, $_value);
+			}
+		}
 	}
 } 
