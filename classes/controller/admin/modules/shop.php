@@ -148,9 +148,14 @@ class Controller_Admin_Modules_Shop extends Controller_Admin_Front {
 	protected function left_menu_nomenclature_add()
 	{
 		$query = 'category={CATEGORY_ID}&element={ELEMENT_ID}';
-		if ( ! empty($this->back_url)) {
-			$query .= '&back_url='.urlencode($this->back_url);
+		
+		$request = $this->request->current();
+		$back_url = $request->url();
+		$query_array = $request->query();
+		if ( ! empty($query_array)) {
+			$back_url .= '?'.http_build_query($query_array);
 		}
+		$query .= '&back_url='.urlencode($back_url.'#tab-nomenclature');
 		
 		$this->_ex_menu_items = array_merge_recursive($this->_ex_menu_items, array(
 			'shop_nomenclature' => array(
