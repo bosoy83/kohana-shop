@@ -83,11 +83,16 @@ class Controller_Admin_Modules_Shop_Element extends Controller_Admin_Modules_Sho
 		
 		$this->_save_properties_tab($orm);
 		
-		$html = Request::factory($sub_link)
+		$sub_request = Request::factory($sub_link)
 			->post($post)
-			->execute()
-			->body();
+			->execute();
 		
+		if ($sub_request->headers('CMS-ID')) {
+			$this->element_id = $id = (int) $sub_request->headers('CMS-ID');
+			$orm = ORM::factory('shop_Element', $id);
+		}
+			
+		$html = $sub_request->body();
 		$html = $this->_set_properties_tab($html, $orm);
 		if ($orm->loaded()) {
 			$html = $this->_set_nomenclature_tab($html, $orm);

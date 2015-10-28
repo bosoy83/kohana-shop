@@ -73,11 +73,11 @@ class Controller_Admin_Modules_Shop_Category extends Controller_Admin_Modules_Sh
 		
 		$this->_save_properties_tab($orm);
 		
-		$html = Request::factory($sub_link)
+		$sub_request = Request::factory($sub_link)
 			->post($post)
-			->execute()
-			->body();
+			->execute();
 		
+		$html = $sub_request->body();
 		$html = $this->_set_properties_tab($html, $orm);
 			
 		$this->template
